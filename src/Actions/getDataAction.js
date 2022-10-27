@@ -1,5 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import {
   GET_ACADEMIC_CALENDAR,
   GET_BUDGET_CALENDAR,
@@ -21,7 +21,7 @@ import {
   GET_ACCOUNTS,
   UPDATE_MESSAGE,
   DELETE_MESSAGE,
-} from "./types";
+} from './types';
 
 // Login
 export const userLogin =
@@ -30,7 +30,7 @@ export const userLogin =
     dispatch(setLoading());
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
@@ -38,7 +38,7 @@ export const userLogin =
 
     try {
       const res = await axios.post(
-        "http://ethioumrah.vohealth.org/api/calendar/login",
+        'apisource/api/calendar/login',
         body,
         config
       );
@@ -58,18 +58,14 @@ export const otpLogin =
     dispatch(setLoading());
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
     const body = JSON.stringify({ email, otp });
 
     try {
-      const res = await axios.post(
-        "http://ethioumrah.vohealth.org/api/calendar/otp",
-        body,
-        config
-      );
+      const res = await axios.post('apisource/api/calendar/otp', body, config);
       dispatch({
         type: OTP_LOGIN,
         payload: res.data,
@@ -88,7 +84,7 @@ export const newPassword =
     dispatch(setLoading());
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
@@ -96,13 +92,13 @@ export const newPassword =
 
     try {
       const res = await axios.post(
-        "http://ethioumrah.vohealth.org/api/calendar/new-password",
+        'apisource/api/calendar/new-password',
         body,
         config
       );
       dispatch({
         type: DATA_UPDATED,
-        payload: "password set",
+        payload: 'password set',
       });
     } catch (err) {
       console.log(err.response.data);
@@ -119,7 +115,7 @@ export const changePassword =
     dispatch(setLoading());
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
@@ -127,13 +123,13 @@ export const changePassword =
 
     try {
       const res = await axios.post(
-        "http://ethioumrah.vohealth.org/api/calendar/change-password",
+        'apisource/api/calendar/change-password',
         body,
         config
       );
       dispatch({
         type: DATA_UPDATED,
-        payload: "password changed",
+        payload: 'password changed',
       });
     } catch (err) {
       console.log(err.response.data);
@@ -148,12 +144,11 @@ export const getAcademicCalendar = () => async (dispatch) => {
   dispatch(setLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
-    const res = await axios.get(
-      "http://ethioumrah.vohealth.org/api/calendar/academic-calendar",
-      { headers }
-    );
+    const res = await axios.get('apisource/api/calendar/academic-calendar', {
+      headers,
+    });
     dispatch({
       type: GET_ACADEMIC_CALENDAR,
       payload: res.data,
@@ -170,12 +165,11 @@ export const getBudgetCalendar = () => async (dispatch) => {
   dispatch(setLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
-    const res = await axios.get(
-      "http://ethioumrah.vohealth.org/api/calendar/budget-calendar",
-      { headers }
-    );
+    const res = await axios.get('apisource/api/calendar/budget-calendar', {
+      headers,
+    });
     dispatch({
       type: GET_BUDGET_CALENDAR,
       payload: res.data,
@@ -192,12 +186,11 @@ export const getPlanCalendar = () => async (dispatch) => {
   dispatch(setLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
-    const res = await axios.get(
-      "http://ethioumrah.vohealth.org/api/calendar/plan-calendar",
-      { headers }
-    );
+    const res = await axios.get('apisource/api/calendar/plan-calendar', {
+      headers,
+    });
     dispatch({
       type: GET_PLAN_CALENDAR,
       payload: res.data,
@@ -214,16 +207,13 @@ export const getMessages = () => async (dispatch) => {
   dispatch(setLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
-    const res = await axios.get(
-      "http://ethioumrah.vohealth.org/api/calendar/messages",
-      { headers }
-    );
-    res.data.map((message) => (message.reciever = message.reciever.split(",")));
+    const res = await axios.get('apisource/api/calendar/messages', { headers });
+    res.data.map((message) => (message.reciever = message.reciever.split(',')));
     res.data.map((message) => {
       if (message.additionalReciever) {
-        message.additionalReciever = message.additionalReciever.split(",");
+        message.additionalReciever = message.additionalReciever.split(',');
       }
     });
     dispatch({
@@ -243,12 +233,11 @@ export const getAccounts = () => async (dispatch) => {
   dispatch(setLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
-    const res = await axios.get(
-      "http://ethioumrah.vohealth.org/api/calendar/get-accounts",
-      { headers }
-    );
+    const res = await axios.get('apisource/api/calendar/get-accounts', {
+      headers,
+    });
     const accountEmails = res.data.map(({ email }) => email);
     dispatch({
       type: GET_ACCOUNTS,
@@ -266,18 +255,18 @@ export const updateAcademicCalendar = (newDate) => async (dispatch) => {
   dispatch(setAddDataLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
 
     const body = JSON.stringify(newDate);
     const res = await axios.post(
-      "http://ethioumrah.vohealth.org/api/calendar/update-academic-calendar",
+      'apisource/api/calendar/update-academic-calendar',
       body,
       { headers }
     );
     dispatch({
       type: DATA_UPDATED,
-      payload: "date updated",
+      payload: 'date updated',
     });
   } catch (err) {
     dispatch({
@@ -291,18 +280,18 @@ export const updateBudgetCalendar = (newDate) => async (dispatch) => {
   dispatch(setAddDataLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
 
     const body = JSON.stringify(newDate);
     const res = await axios.post(
-      "http://ethioumrah.vohealth.org/api/calendar/update-budget-calendar",
+      'apisource/api/calendar/update-budget-calendar',
       body,
       { headers }
     );
     dispatch({
       type: DATA_UPDATED,
-      payload: "date updated",
+      payload: 'date updated',
     });
   } catch (err) {
     dispatch({
@@ -316,18 +305,18 @@ export const updatePlanCalendar = (newDate) => async (dispatch) => {
   dispatch(setAddDataLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
 
     const body = JSON.stringify(newDate);
     const res = await axios.post(
-      "http://ethioumrah.vohealth.org/api/calendar/update-plan-calendar",
+      'apisource/api/calendar/update-plan-calendar',
       body,
       { headers }
     );
     dispatch({
       type: DATA_UPDATED,
-      payload: "date updated",
+      payload: 'date updated',
     });
   } catch (err) {
     dispatch({
@@ -341,16 +330,14 @@ export const sendMessage = (message) => async (dispatch) => {
   dispatch(setAddDataLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
 
     const body = JSON.stringify(message);
-    const res = await axios.post(
-      "http://ethioumrah.vohealth.org/api/calendar/send-message",
-      body,
-      { headers }
-    );
-    message.reciever = message.reciever.split(",");
+    const res = await axios.post('apisource/api/calendar/send-message', body, {
+      headers,
+    });
+    message.reciever = message.reciever.split(',');
     dispatch({
       type: SEND_MESSAGES,
       payload: message,
@@ -367,7 +354,7 @@ export const updateMessage = (message) => async (dispatch) => {
   dispatch(setAddDataLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     dispatch({
       type: UPDATE_MESSAGE,
@@ -375,7 +362,7 @@ export const updateMessage = (message) => async (dispatch) => {
     });
     const body = JSON.stringify(message);
     const res = await axios.post(
-      "http://ethioumrah.vohealth.org/api/calendar/update-message",
+      'apisource/api/calendar/update-message',
       body,
       { headers }
     );
@@ -391,7 +378,7 @@ export const deleteMessage = (message) => async (dispatch) => {
   dispatch(setAddDataLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     dispatch({
       type: DELETE_MESSAGE,
@@ -399,7 +386,7 @@ export const deleteMessage = (message) => async (dispatch) => {
     });
     const body = JSON.stringify(message);
     const res = await axios.post(
-      "http://ethioumrah.vohealth.org/api/calendar/delete-message",
+      'apisource/api/calendar/delete-message',
       body,
       { headers }
     );
@@ -415,17 +402,15 @@ export const sendRequest = (request) => async (dispatch) => {
   dispatch(setAddDataLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     const body = JSON.stringify(request);
-    const res = await axios.post(
-      "http://ethioumrah.vohealth.org/api/calendar/send-request",
-      body,
-      { headers }
-    );
+    const res = await axios.post('apisource/api/calendar/send-request', body, {
+      headers,
+    });
     dispatch({
       type: DATA_UPDATED,
-      payload: "request sent",
+      payload: 'request sent',
     });
   } catch (err) {
     dispatch({
@@ -439,17 +424,17 @@ export const resetPasswordRequest = (request) => async (dispatch) => {
   dispatch(setLoading());
   try {
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     const body = JSON.stringify(request);
     const res = await axios.post(
-      "http://ethioumrah.vohealth.org/api/calendar/forgot-password",
+      'apisource/api/calendar/forgot-password',
       body,
       { headers }
     );
     dispatch({
       type: DATA_UPDATED,
-      payload: "password reset",
+      payload: 'password reset',
     });
   } catch (err) {
     dispatch({
